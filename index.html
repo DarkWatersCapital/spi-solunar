@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SPI Solunar</title>
+<meta name="theme-color" content="#0A171B">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SPI Solunar">
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
+<link rel="icon" href="data:image/png;base64,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">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap">
+<style>
+/* Layout: one narrow column like a dash instrument panel — day strip, bite timeline, windows, readouts, outlook */
+:root{
+  --bg:#0A171B; --surface:#0F2329; --surface-2:#153039; --line:#21424C; --night:#06121A;
+  --fg:#E4EEEA; --muted:#8FA9A6; --faint:#5E7B7A;
+  --gold:#F0B85A; --gold-soft:rgba(240,184,90,.16); --sea:#6CD4C4; --sea-soft:rgba(108,212,196,.16);
+  --coral:#EE7B68; --sand:#C9B98F;
+  --display:"Barlow Condensed","Arial Narrow","Roboto Condensed",system-ui,sans-serif;
+  --body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.45 var(--body);font-variant-numeric:tabular-nums;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:12px 40px}
+.wrap{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+h1,h2,h3{font-family:var(--display);font-weight:600;margin:0;text-wrap:balance;letter-spacing:.01em}
+.eyebrow{font:600 12px/1 var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+button{font:inherit;color:inherit}
+button:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+[hidden]{display:none!important}
+
+/* header */
+header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;flex-direction:column;gap:4px;min-width:0}
+.brand h1{font-size:26px;line-height:1;font-weight:700;letter-spacing:.02em}
+.brand h1 span{color:var(--gold)}
+.loc{font-size:13px;color:var(--muted)}
+.refresh{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:8px 12px;font-size:13px;color:var(--muted);cursor:pointer;flex-shrink:0}
+.refresh svg{width:16px;height:16px}
+.refresh.spin svg{animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.status{font-size:12.5px;color:var(--muted);display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--sea);flex-shrink:0}
+.dot.warn{background:var(--gold)}.dot.bad{background:var(--coral)}
+
+/* day strip */
+.days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.day{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px 2px 7px;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;min-width:0}
+.day .dn{font:600 12px/1 var(--display);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.day .dd{font:600 19px/1 var(--display)}
+.day .td{position:absolute;top:5px;right:5px;width:5px;height:5px;border-radius:50%;background:var(--coral)}
+.day .bar{width:70%;height:4px;border-radius:2px;background:var(--line);overflow:hidden}
+.day .bar i{display:block;height:100%;border-radius:2px}
+.day[aria-pressed="true"]{background:var(--surface-2);border-color:var(--gold)}
+.day[aria-pressed="true"] .dn{color:var(--gold)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:center;padding:18px;background:var(--surface);border:1px solid var(--line);border-radius:18px}
+.hero .when{font-size:13px;color:var(--muted)}
+.rating{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 10px;margin-top:6px}
+.rating b{font:700 44px/0.95 var(--display);letter-spacing:.01em}
+.rating span{font:600 18px/1 var(--display);color:var(--muted)}
+.best{margin-top:10px;font-size:15px}
+.best strong{font:600 21px/1.2 var(--display);color:var(--gold);display:block}
+.why{font-size:13.5px;color:var(--muted);margin-top:2px}
+.moon{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;width:88px}
+.moon .mn{font:600 14px/1.1 var(--display);letter-spacing:.04em}
+.moon .mi{font-size:12px;color:var(--muted)}
+
+/* chart */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.panel-h{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.seg{display:inline-flex;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:3px}
+.seg button{border:0;background:transparent;padding:6px 12px;border-radius:999px;font:600 13px/1 var(--display);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--surface-2);color:var(--fg)}
+#chart{width:100%;min-width:0}
+#chart svg{display:block;width:100%;height:auto}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:14px;height:8px;border-radius:2px;display:inline-block}
+
+/* windows */
+.wins{display:flex;flex-direction:column;gap:0}
+.win{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+.win:first-child{border-top:0;padding-top:2px}
+.rank{font:700 15px/1 var(--display);width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--gold-soft);color:var(--gold)}
+.win .t{font:600 19px/1.15 var(--display)}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}
+.chip{font-size:11.5px;line-height:1;padding:5px 7px;border-radius:6px;background:var(--surface-2);color:var(--fg);white-space:nowrap}
+.chip.neg{background:rgba(238,123,104,.14);color:var(--coral)}
+.chip.sol{background:var(--gold-soft);color:var(--gold)}
+.chip.tide{background:var(--sea-soft);color:var(--sea)}
+.score{font:700 22px/1 var(--display);text-align:right}
+.score small{display:block;font:500 11px/1.2 var(--body);color:var(--muted)}
+
+/* readouts */
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.cell{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:13px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.cell .v{font:600 26px/1.05 var(--display);display:flex;align-items:center;gap:8px}
+.cell .v small{font:500 15px/1 var(--display);color:var(--muted)}
+.cell .s{font-size:12.5px;color:var(--muted);line-height:1.35}
+.cell .s b{color:var(--fg);font-weight:500}
+.arrow{width:22px;height:22px;flex-shrink:0;color:var(--sea)}
+.tag{font:600 11px/1 var(--display);letter-spacing:.08em;text-transform:uppercase;padding:4px 6px;border-radius:5px;align-self:flex-start}
+
+/* tides + solunar tables */
+.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.tlist{display:flex;flex-direction:column;gap:7px;min-width:0}
+.tlist h3{font-size:16px}
+.tlist .sub{font-size:12px;color:var(--muted);margin-top:-4px}
+.trow{display:grid;grid-template-columns:18px 1fr auto;gap:6px;align-items:center;font-size:14.5px}
+.trow .ty{font:700 12px/1 var(--display);color:var(--sea)}
+.trow .ty.l{color:var(--muted)}
+.trow .ft{color:var(--muted);font-size:13.5px}
+table{width:100%;border-collapse:collapse;font-size:14.5px}
+td{padding:8px 0;border-top:1px solid var(--line);vertical-align:top}
+tr:first-child td{border-top:0}
+td:last-child{text-align:right;white-space:nowrap}
+td .k{font:600 13px/1.2 var(--display);letter-spacing:.08em;text-transform:uppercase}
+td .d{font-size:12px;color:var(--muted)}
+.k.maj{color:var(--gold)}.k.min{color:var(--sand)}
+
+/* outlook */
+.ol{display:flex;flex-direction:column}
+.orow{display:grid;grid-template-columns:52px 28px 1fr auto;gap:10px;align-items:center;padding:11px 0;border-top:1px solid var(--line);cursor:pointer;background:none;border-left:0;border-right:0;border-bottom:0;text-align:left;width:100%}
+.orow:first-child{border-top:0}
+.orow .od{font:600 16px/1.05 var(--display)}
+.orow .od small{display:block;font:500 12px/1.2 var(--body);color:var(--muted)}
+.orow .om{font-size:13px;color:var(--muted);line-height:1.35;min-width:0}
+.orow .om b{color:var(--fg);font-weight:500}
+.pill{font:700 13px/1 var(--display);letter-spacing:.06em;text-transform:uppercase;padding:6px 8px;border-radius:7px;text-align:center;min-width:76px}
+
+footer{font-size:12px;color:var(--faint);line-height:1.5;display:flex;flex-direction:column;gap:6px}
+footer a{color:var(--muted)}
+.note{font-size:12.5px;color:var(--muted)}
+@media (max-width:380px){.rating b{font-size:40px}.moon{width:80px}.cols{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.refresh.spin svg{animation:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <h1>SPI <span>Solunar</span></h1>
+      <div class="loc">South Padre Island, TX · 26.1°N 97.2°W</div>
+    </div>
+    <button class="refresh" id="refresh" aria-label="Refresh live data">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
+      <span>Refresh</span>
+    </button>
+  </header>
+  <div class="status" id="status"><span class="dot warn"></span><span>Loading tides and weather…</span></div>
+
+  <nav class="days" id="days" aria-label="Choose a day"></nav>
+
+  <section class="hero" id="hero" aria-live="polite"></section>
+
+  <section class="panel">
+    <div class="panel-h">
+      <div class="eyebrow">Bite timeline</div>
+      <div class="seg" role="group" aria-label="Tide station">
+        <button id="st-gulf" aria-pressed="true">Gulf</button>
+        <button id="st-bay" aria-pressed="false">Bay</button>
+      </div>
+    </div>
+    <div id="chart"></div>
+    <div class="legend">
+      <span><i class="sw" style="background:var(--gold)"></i>Major</span>
+      <span><i class="sw" style="border:1.5px dashed var(--sand)"></i>Minor</span>
+      <span><i class="sw" style="background:var(--sea)"></i><span id="lg-tide">Tide (ft)</span></span>
+      <span><i class="sw" style="background:linear-gradient(90deg,rgba(240,184,90,.1),var(--gold))"></i>Bite index</span>
+      <span><i class="sw" style="background:var(--night);border:1px solid var(--line)"></i>Dark</span>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="eyebrow">Best windows</div>
+    <div class="wins" id="wins"></div>
+  </section>
+
+  <section>
+    <div class="eyebrow" style="margin-bottom:10px" id="cond-h">Conditions</div>
+    <div class="grid" id="cond"></div>
+  </section>
+
+  <section class="panel">
+    <div class="eyebrow">Tides</div>
+    <div class="cols" id="tides"></div>
+  </section>
+
+  <section class="panel">
+    <div class="eyebrow">Solunar table</div>
+    <table id="sol"></table>
+  </section>
+
+  <section class="panel">
+    <div class="eyebrow">7-day outlook</div>
+    <div class="ol" id="outlook"></div>
+  </section>
+
+  <footer>
+    <div>Solunar periods, sun and moon are calculated on your phone. Tides and water temperature from <a href="https://tidesandcurrents.noaa.gov/" target="_blank" rel="noopener">NOAA CO-OPS</a>; weather and waves from <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>. Data is saved so the app still works with weak signal.</div>
+    <div>The bite index blends moon periods, dawn and dusk, tide movement, barometer and wind. It is a planning guide, not a promise. Check the NWS marine forecast before running offshore.</div>
+  </footer>
+</div>
+
+<script>
+"use strict";
+/* ---------- config ---------- */
+const CFG={
+  lat:26.10, lng:-97.165, tz:"America/Chicago",
+  bay:[{id:"8779770",name:"Port Isabel"}],
+  gulf:[{id:"8779750",name:"Brazos Santiago Pass"},{id:"8779748",name:"SPI Coast Guard Stn"}],
+  wtemp:[{id:"8779770",name:"Port Isabel"},{id:"8779748",name:"SPI Coast Guard Stn"}],
+  marine:{lat:26.08,lng:-97.04}
+};
+const MIN=60000, HOUR=3600000, DAY=86400000;
+const $=id=>document.getElementById(id);
+const store={
+  get(k){try{const v=localStorage.getItem("spi:"+k);return v?JSON.parse(v):null}catch(e){return null}},
+  set(k,v){try{localStorage.setItem("spi:"+k,JSON.stringify(v))}catch(e){}}
+};
+
+/* ---------- time zone helpers (always South Padre time) ---------- */
+const TZ=CFG.tz;
+const dtf=new Intl.DateTimeFormat("en-US",{timeZone:TZ,hourCycle:"h23",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit"});
+function parts(t){const o={};for(const p of dtf.formatToParts(new Date(t)))if(p.type!=="literal")o[p.type]=+p.value;o.hour%=24;return o}
+function offMin(t){const p=parts(t);return Math.round((Date.UTC(p.year,p.month-1,p.day,p.hour,p.minute,p.second)-t)/MIN)}
+function midnight(y,m,d){const g=Date.UTC(y,m-1,d);let t=g-offMin(g)*MIN;return g-offMin(t)*MIN}
+const fT=new Intl.DateTimeFormat("en-US",{timeZone:TZ,hour:"numeric",minute:"2-digit"});
+const fWd=new Intl.DateTimeFormat("en-US",{timeZone:TZ,weekday:"short"});
+const fLong=new Intl.DateTimeFormat("en-US",{timeZone:TZ,weekday:"long",month:"long",day:"numeric"});
+const fMd=new Intl.DateTimeFormat("en-US",{timeZone:TZ,month:"short",day:"numeric"});
+const time=t=>fT.format(new Date(t));
+const tShort=t=>time(t).replace(" AM","a").replace(" PM","p");
+const range=(a,b)=>{const A=time(a),B=time(b);const sa=A.slice(-2),sb=B.slice(-2);return (sa===sb?A.slice(0,-3):A)+"–"+B};
+
+/* ---------- astronomy (after SunCalc, V. Agafonkin, BSD) ---------- */
+const rad=Math.PI/180, J1970=2440588, J2000=2451545, OB=rad*23.4397;
+const toDays=t=>t/DAY-0.5+J1970-J2000;
+const raOf=(l,b)=>Math.atan2(Math.sin(l)*Math.cos(OB)-Math.tan(b)*Math.sin(OB),Math.cos(l));
+const decOf=(l,b)=>Math.asin(Math.sin(b)*Math.cos(OB)+Math.cos(b)*Math.sin(OB)*Math.sin(l));
+const altOf=(H,phi,dec)=>Math.asin(Math.sin(phi)*Math.sin(dec)+Math.cos(phi)*Math.cos(dec)*Math.cos(H));
+const sid=(d,lw)=>rad*(280.16+360.9856235*d)-lw;
+function sunCoords(d){const M=rad*(357.5291+0.98560028*d);const C=rad*(1.9148*Math.sin(M)+0.02*Math.sin(2*M)+0.0003*Math.sin(3*M));const L=M+C+rad*102.9372+Math.PI;return{dec:decOf(L,0),ra:raOf(L,0)}}
+function moonCoords(d){const L=rad*(218.316+13.176396*d),M=rad*(134.963+13.064993*d),F=rad*(93.272+13.229350*d);const l=L+rad*6.289*Math.sin(M),b=rad*5.128*Math.sin(F),dist=385001-20905*Math.cos(M);return{ra:raOf(l,b),dec:decOf(l,b),dist}}
+const PHI=rad*CFG.lat, LW=rad*-CFG.lng;
+function sunAlt(t){const d=toDays(t),c=sunCoords(d);return altOf(sid(d,LW)-c.ra,PHI,c.dec)}
+function refr(h){if(h<0)h=0;return 0.0002967/Math.tan(h+0.00312536/(h+0.08901179))}
+function moonAlt(t){const d=toDays(t),c=moonCoords(d);const h=altOf(sid(d,LW)-c.ra,PHI,c.dec);return h+refr(h)}
+function moonHA(t){const d=toDays(t),c=moonCoords(d);return sid(d,LW)-c.ra}
+const wrap=a=>{a=(a+Math.PI)%(2*Math.PI);if(a<0)a+=2*Math.PI;return a-Math.PI};
+function moonIllum(t){const d=toDays(t),s=sunCoords(d),m=moonCoords(d),sd=149598000;
+  const phi=Math.acos(Math.sin(s.dec)*Math.sin(m.dec)+Math.cos(s.dec)*Math.cos(m.dec)*Math.cos(s.ra-m.ra));
+  const inc=Math.atan2(sd*Math.sin(phi),m.dist-sd*Math.cos(phi));
+  const ang=Math.atan2(Math.cos(s.dec)*Math.sin(s.ra-m.ra),Math.sin(s.dec)*Math.cos(m.dec)-Math.cos(s.dec)*Math.sin(m.dec)*Math.cos(s.ra-m.ra));
+  return{fraction:(1+Math.cos(inc))/2,phase:0.5+0.5*inc*(ang<0?-1:1)/Math.PI}}
+/* find times where f(t) crosses 0; dir: +1 rising, -1 falling */
+function crossings(a,b,f,step=10*MIN){const out=[];let t0=a,f0=f(a);
+  for(let t1=a+step;t1<=b;t1+=step){const f1=f(t1);
+    if(f0<0!==f1<0&&Math.abs(f1-f0)<1.5){let lo=t0,hi=t1,flo=f0;for(let i=0;i<18;i++){const m=(lo+hi)/2,fm=f(m);if(fm<0===flo<0){lo=m;flo=fm}else hi=m}out.push({t:Math.round((lo+hi)/2),dir:f1>f0?1:-1})}
+    t0=t1;f0=f1}return out}
+function phaseName(p){if(p<0.0339||p>0.9661)return"New Moon";if(p<0.2161)return"Waxing Crescent";if(p<0.2839)return"First Quarter";if(p<0.4661)return"Waxing Gibbous";if(p<0.5339)return"Full Moon";if(p<0.7161)return"Waning Gibbous";if(p<0.7839)return"Last Quarter";return"Waning Crescent"}
+function nextPhase(t,target){/* next time illumination phase reaches target (0=new,0.5=full) */
+  let p=moonIllum(t).phase,dt=((target-p+1)%1)*29.530588*DAY;if(dt<DAY*0.5)dt+=29.530588*DAY;let g=t+dt;
+  for(let i=0;i<4;i++){const q=moonIllum(g).phase;let e=((q-target+1.5)%1)-0.5;g-=e*29.530588*DAY}return g}
+
+const astroCache=new Map();
+function astro(day){
+  if(astroCache.has(day.start))return astroCache.get(day.start);
+  const a=day.start-14*HOUR,b=day.end+14*HOUR;
+  const sun=crossings(a,b,t=>sunAlt(t)+0.833*rad);
+  const moon=crossings(a,b,t=>moonAlt(t)-0.133*rad);
+  const upper=crossings(a,b,t=>wrap(moonHA(t)));
+  const lower=crossings(a,b,t=>wrap(moonHA(t)-Math.PI));
+  const inDay=x=>x.t>=day.start&&x.t<day.end;
+  const sunrise=sun.find(x=>x.dir>0&&inDay(x)), sunset=sun.find(x=>x.dir<0&&inDay(x));
+  const majors=[...upper.filter(x=>x.dir>0).map(x=>({t:x.t,kind:"over"})),...lower.filter(x=>x.dir>0).map(x=>({t:x.t,kind:"under"}))]
+    .map(x=>({...x,s:x.t-60*MIN,e:x.t+60*MIN})).sort((p,q)=>p.t-q.t);
+  const minors=moon.map(x=>({t:x.t,kind:x.dir>0?"rise":"set",s:x.t-30*MIN,e:x.t+30*MIN})).sort((p,q)=>p.t-q.t);
+  const noon=day.start+(day.end-day.start)/2, il=moonIllum(noon);
+  const r={sunrise:sunrise&&sunrise.t,sunset:sunset&&sunset.t,
+    sunEvents:sun,majors,minors,
+    majorsDay:majors.filter(inDay),minorsDay:minors.filter(inDay),
+    moonrise:(minors.find(x=>x.kind==="rise"&&inDay(x))||{}).t,moonset:(minors.find(x=>x.kind==="set"&&inDay(x))||{}).t,
+    phase:il.phase,fraction:il.fraction,name:phaseName(il.phase)};
+  astroCache.set(day.start,r);return r}
+
+/* ---------- days ---------- */
+function buildDays(){const p=parts(Date.now()),out=[];
+  for(let i=0;i<7;i++){const g=new Date(Date.UTC(p.year,p.month-1,p.day+i));const y=g.getUTCFullYear(),m=g.getUTCMonth()+1,d=g.getUTCDate();
+    const n=new Date(Date.UTC(y,m-1,d+1));out.push({i,y,m,d,key:`${y}-${m}-${d}`,start:midnight(y,m,d),end:midnight(n.getUTCFullYear(),n.getUTCMonth()+1,n.getUTCDate())})}
+  return out}
+
+/* ---------- data ---------- */
+const S={days:buildDays(),sel:0,station:store.get("station")||"gulf",data:{},meta:{},loading:false};
+async function getJSON(url,ms=15000){const c=new AbortController();const to=setTimeout(()=>c.abort(),ms);
+  try{const r=await fetch(url,{signal:c.signal});if(!r.ok)throw new Error("HTTP "+r.status);const j=await r.json();if(j&&j.error)throw new Error(j.error.message||j.reason||"API error");return j}
+  finally{clearTimeout(to)}}
+const NOAA="https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?datum=MLLW&units=english&time_zone=gmt&format=json&application=SPI_Solunar";
+const ymd=t=>{const d=new Date(t);return d.getUTCFullYear()+String(d.getUTCMonth()+1).padStart(2,"0")+String(d.getUTCDate()).padStart(2,"0")};
+const gmt=s=>Date.parse(s.replace(" ","T")+":00Z");
+async function loadTide(list){const begin=ymd(Date.now()-30*HOUR);let err;
+  for(const st of list){try{
+    const [p,h]=await Promise.all([
+      getJSON(`${NOAA}&product=predictions&interval=30&station=${st.id}&begin_date=${begin}&range=240`),
+      getJSON(`${NOAA}&product=predictions&interval=hilo&station=${st.id}&begin_date=${begin}&range=240`)]);
+    if(!p.predictions||!p.predictions.length)throw new Error("No predictions");
+    return{id:st.id,name:st.name,t:p.predictions.map(x=>gmt(x.t)),v:p.predictions.map(x=>+x.v),
+      hilo:(h.predictions||[]).map(x=>({t:gmt(x.t),v:+x.v,type:x.type}))}
+  }catch(e){err=e}}throw err}
+async function loadWTemp(){let err;for(const st of CFG.wtemp){try{
+  const j=await getJSON(`https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?product=water_temperature&date=latest&units=english&time_zone=gmt&format=json&application=SPI_Solunar&station=${st.id}`);
+  const r=j.data&&j.data[0];if(!r||r.v==="")throw new Error("No reading");return{name:st.name,t:gmt(r.t),v:+r.v}}catch(e){err=e}}throw err}
+async function loadWx(){
+  const v="temperature_2m,precipitation_probability,weather_code,wind_speed_10m,wind_direction_10m,wind_gusts_10m,pressure_msl,cloud_cover";
+  const j=await getJSON(`https://api.open-meteo.com/v1/forecast?latitude=${CFG.lat}&longitude=${CFG.lng}&hourly=${v}&current=temperature_2m,weather_code,wind_speed_10m,wind_direction_10m,wind_gusts_10m,pressure_msl&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timeformat=unixtime&past_days=1&forecast_days=9`);
+  if(!j.hourly)throw new Error("No forecast");return j}
+async function loadMarine(){
+  const j=await getJSON(`https://marine-api.open-meteo.com/v1/marine?latitude=${CFG.marine.lat}&longitude=${CFG.marine.lng}&hourly=wave_height,wave_period,wave_direction,swell_wave_height,swell_wave_period,sea_surface_temperature&length_unit=imperial&timeformat=unixtime&past_days=1&forecast_days=9`);
+  if(!j.hourly)throw new Error("No marine data");return j}
+const SOURCES={gulf:()=>loadTide(CFG.gulf),bay:()=>loadTide(CFG.bay),wtemp:loadWTemp,wx:loadWx,marine:loadMarine};
+const LABEL={gulf:"Gulf tides",bay:"Bay tides",wtemp:"Water temp",wx:"Weather",marine:"Waves"};
+for(const k in SOURCES){const c=store.get("d:"+k);if(c){S.data[k]=c.v;S.meta[k]={ts:c.ts,ok:false,cached:true}}}
+
+async function refresh(){if(S.loading)return;S.loading=true;$("refresh").classList.add("spin");renderStatus();
+  await Promise.all(Object.keys(SOURCES).map(async k=>{try{const v=await SOURCES[k]();S.data[k]=v;S.meta[k]={ts:Date.now(),ok:true};store.set("d:"+k,{ts:Date.now(),v})}
+    catch(e){S.meta[k]={...(S.meta[k]||{}),ok:false,err:String(e.message||e)}}
+    renderAll()}));
+  S.loading=false;$("refresh").classList.remove("spin");renderStatus()}
+
+/* ---------- series helpers ---------- */
+function interp(T,V,t){if(!T||!T.length||t<T[0]||t>T[T.length-1])return null;let lo=0,hi=T.length-1;while(hi-lo>1){const m=(lo+hi)>>1;if(T[m]<=t)lo=m;else hi=m}
+  if(V[lo]==null||V[hi]==null)return V[lo]??V[hi]??null;const f=(t-T[lo])/((T[hi]-T[lo])||1);return V[lo]+(V[hi]-V[lo])*f}
+function hourly(src){if(!src||!src.hourly)return null;const h=src.hourly;if(!h._T)Object.defineProperty(h,"_T",{value:h.time.map(s=>s*1000)});return h}
+function hv(src,key,t){const h=hourly(src);if(!h||!h[key])return null;const T=h._T;const i=Math.round((t-T[0])/HOUR);if(i<0||i>=T.length)return null;return h[key][i]}
+const tideRate=(st,t)=>{if(!st)return null;const a=interp(st.t,st.v,t-15*MIN),b=interp(st.t,st.v,t+15*MIN);return a==null||b==null?null:(b-a)*2};/* ft per hour */
+const hpa2in=x=>x*0.0295300;
+const toF=(v,u)=>v==null?null:(u&&u.includes("C")?v*9/5+32:v);
+const compass=d=>["N","NNE","NE","ENE","E","ESE","SE","SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"][Math.round(((d%360)+360)%360/22.5)%16];
+const WMO={0:"Clear",1:"Mostly clear",2:"Partly cloudy",3:"Overcast",45:"Fog",48:"Fog",51:"Drizzle",53:"Drizzle",55:"Drizzle",56:"Freezing drizzle",57:"Freezing drizzle",61:"Light rain",63:"Rain",65:"Heavy rain",66:"Freezing rain",67:"Freezing rain",71:"Snow",73:"Snow",75:"Snow",77:"Snow",80:"Showers",81:"Showers",82:"Heavy showers",85:"Snow showers",86:"Snow showers",95:"Thunderstorms",96:"T-storms, hail",99:"T-storms, hail"};
+
+/* ---------- bite model ---------- */
+function bell(t,c,half){const x=(t-c)/half;return Math.abs(x)>=1?0:0.5+0.5*Math.cos(Math.PI*x)}/* 1 at center, 0 at edge */
+function inBand(t,s,e){return t>=s&&t<=e}
+function scoreAt(t,day,A,norm){
+  let sc=18;const why=[];
+  // moon phase: strongest near new and full
+  const pd=Math.min(Math.abs(A.phase-0),Math.abs(A.phase-0.5),Math.abs(A.phase-1));
+  const moonB=Math.max(0,1-pd/0.12)*10;sc+=moonB;
+  // solunar
+  let sol=0,solWhy=null;
+  for(const m of A.majors){if(inBand(t,m.s,m.e)){const v=26+14*bell(t,m.t,60*MIN);if(v>sol){sol=v;solWhy={txt:m.kind==="over"?"Major · moon overhead":"Major · moon underfoot",c:"sol"}}}}
+  for(const m of A.minors){if(inBand(t,m.s,m.e)){const v=16+10*bell(t,m.t,30*MIN);if(v>sol){sol=v;solWhy={txt:m.kind==="rise"?"Minor · moonrise":"Minor · moonset",c:"sol"}}}}
+  sc+=sol;if(solWhy)why.push(solWhy);
+  // light
+  let lightB=0;for(const e of A.sunEvents){const b=bell(t,e.t,75*MIN);if(b>0){const v=20*b;if(v>lightB){lightB=v;if(b>0.35)why.push({txt:e.dir>0?"Sunrise":"Sunset"})}}}
+  sc+=lightB;
+  const sa=sunAlt(t)/rad;if(sa>50)sc-=5;
+  // tide movement
+  const rates=["gulf","bay"].map(k=>{const r=tideRate(S.data[k],t);return r==null||!norm[k]?null:r/norm[k]}).filter(x=>x!=null);
+  if(rates.length){const m=rates.reduce((a,b)=>a+Math.abs(b),0)/rates.length;sc+=-6+24*Math.min(1,m);
+    const g=tideRate(S.data.gulf,t)??tideRate(S.data.bay,t);
+    if(m>0.55)why.push({txt:(g>0?"Strong incoming":"Strong outgoing")+" tide",c:"tide"});
+    else if(m>0.3)why.push({txt:(g>0?"Incoming":"Outgoing")+" tide",c:"tide"});
+    else if(m<0.15)why.push({txt:"Slack tide",c:"neg"})}
+  // weather
+  const wx=S.data.wx;
+  if(wx){const ws=hv(wx,"wind_speed_10m",t),wg=hv(wx,"wind_gusts_10m",t),pp=hv(wx,"precipitation_probability",t),wc=hv(wx,"weather_code",t);
+    const p0=hv(wx,"pressure_msl",t),p3=hv(wx,"pressure_msl",t-3*HOUR);
+    if(wg!=null&&wg>=28){sc-=15;why.push({txt:`Gusts ${Math.round(wg)} mph`,c:"neg"})}
+    else if(ws!=null&&ws>=20){sc-=10;why.push({txt:`Wind ${Math.round(ws)} mph`,c:"neg"})}
+    else if(ws!=null&&ws>=15)sc-=4;
+    else if(ws!=null&&ws>=4&&ws<12)sc+=3;
+    if(wc!=null&&wc>=95){sc-=22;why.push({txt:"Storms",c:"neg"})}
+    else if(pp!=null&&pp>=60){sc-=8;why.push({txt:`Rain ${Math.round(pp)}%`,c:"neg"})}
+    if(p0!=null&&p3!=null){const dp=p0-p3;
+      if(dp<=-3){sc+=2;why.push({txt:"Barometer dropping fast"})}
+      else if(dp<=-0.8){sc+=8;why.push({txt:"Falling barometer"})}
+      else if(dp>=1.5){sc-=6;why.push({txt:"Rising barometer",c:"neg"})}}}
+  return{v:Math.max(0,Math.min(100,Math.round(sc))),why}}
+
+const dayModelCache=new Map();
+function dayModel(day){
+  const sig=day.start+"|"+Object.keys(S.data).map(k=>k+(S.meta[k]&&S.meta[k].ts)).join(",");
+  if(dayModelCache.get(day.start)?.sig===sig)return dayModelCache.get(day.start);
+  const A=astro(day);const norm={};
+  for(const k of ["gulf","bay"]){const st=S.data[k];if(!st)continue;let mx=0;for(let t=day.start;t<day.end;t+=30*MIN){const r=tideRate(st,t);if(r!=null)mx=Math.max(mx,Math.abs(r))}norm[k]=mx||null}
+  const pts=[];for(let t=day.start;t<day.end;t+=10*MIN){const s=scoreAt(t,day,A,norm);pts.push({t,...s})}
+  // windows
+  const used=new Array(pts.length).fill(false),wins=[];
+  for(let n=0;n<3;n++){let bi=-1;for(let i=0;i<pts.length;i++)if(!used[i]&&(bi<0||pts[i].v>pts[bi].v))bi=i;
+    if(bi<0||pts[bi].v<28)break;const pk=pts[bi].v;let l=bi,r=bi;
+    while(l>0&&!used[l-1]&&pts[l-1].v>=pk-10&&(r-l)<14)l--;
+    while(r<pts.length-1&&!used[r+1]&&pts[r+1].v>=pk-10&&(r-l)<14)r++;
+    if(r-l<5){while(r-l<5&&l>0&&!used[l-1])l--;while(r-l<5&&r<pts.length-1&&!used[r+1])r++}
+    for(let i=Math.max(0,l-6);i<=Math.min(pts.length-1,r+6);i++)used[i]=true;
+    wins.push({s:pts[l].t,e:pts[r].t+10*MIN,peak:pk,t:pts[bi].t,why:pts[bi].why})}
+  wins.sort((a,b)=>b.peak-a.peak);
+  const score=wins.length?Math.round(wins[0].peak*0.6+(wins[1]?wins[1].peak:wins[0].peak*0.7)*0.4):0;
+  const m={sig,A,pts,wins,score,norm};dayModelCache.set(day.start,m);return m}
+function grade(s){if(s>=74)return{w:"Excellent",c:"var(--gold)",bg:"rgba(240,184,90,.18)"};if(s>=60)return{w:"Good",c:"var(--sea)",bg:"rgba(108,212,196,.15)"};if(s>=46)return{w:"Fair",c:"var(--sand)",bg:"rgba(201,185,143,.14)"};return{w:"Poor",c:"var(--coral)",bg:"rgba(238,123,104,.14)"}}
+
+/* ---------- day aggregates ---------- */
+function agg(day){const wx=S.data.wx,mr=S.data.marine,o={};
+  const h=hourly(wx);
+  if(h){let ws=[],wg=[],tp=[],pp=[],wc=[],u=0,v=0;
+    h._T.forEach((T,i)=>{if(T>=day.start&&T<day.end){ws.push(h.wind_speed_10m[i]);wg.push(h.wind_gusts_10m[i]);tp.push(h.temperature_2m[i]);pp.push(h.precipitation_probability[i]);wc.push(h.weather_code[i]);
+      if(T>=day.start+6*HOUR&&T<=day.start+20*HOUR){const r=h.wind_direction_10m[i]*rad,s=h.wind_speed_10m[i]||0;u+=s*Math.sin(r);v+=s*Math.cos(r)}}});
+    const cl=a=>a.filter(x=>x!=null);ws=cl(ws);wg=cl(wg);tp=cl(tp);pp=cl(pp);wc=cl(wc);
+    if(ws.length){o.wMin=Math.min(...ws);o.wMax=Math.max(...ws);o.gMax=Math.max(...wg);o.dir=(Math.atan2(u,v)/rad+360)%360;o.tHi=Math.max(...tp);o.tLo=Math.min(...tp);o.rain=Math.max(...pp,0);
+      const sev=[...wc].sort((a,b)=>b-a)[0];const noon=hv(wx,"weather_code",day.start+13*HOUR);o.sky=WMO[sev>=61?sev:(noon??sev)]||"";
+      const pa=hv(wx,"pressure_msl",day.start+7*HOUR),pb=hv(wx,"pressure_msl",day.start+19*HOUR);if(pa!=null&&pb!=null){o.pAm=pa;o.pPm=pb}}}
+  const hm=hourly(mr);
+  if(hm){let wh=[],sst=[],per=[],sw=[];hm._T.forEach((T,i)=>{if(T>=day.start&&T<day.end){wh.push(hm.wave_height[i]);per.push(hm.wave_period[i]);sst.push(hm.sea_surface_temperature?hm.sea_surface_temperature[i]:null);sw.push(hm.swell_wave_height?hm.swell_wave_height[i]:null)}});
+    const cl=a=>a.filter(x=>x!=null);wh=cl(wh);per=cl(per);sst=cl(sst);sw=cl(sw);
+    if(wh.length){o.waveMin=Math.min(...wh);o.waveMax=Math.max(...wh);o.per=per.length?per.reduce((a,b)=>a+b,0)/per.length:null;o.swell=sw.length?Math.max(...sw):null}
+    if(sst.length){const u=mr.hourly_units&&mr.hourly_units.sea_surface_temperature;o.sst=toF(sst.reduce((a,b)=>a+b,0)/sst.length,u)}}
+  return o}
+
+/* ---------- render ---------- */
+function moonSVG(phase,fr,size){const r=size/2-1,c=size/2,k=fr,rx=Math.abs(1-2*k)*r;const wax=phase<0.5;
+  const s1=wax?1:0,s2=wax?(k>0.5?1:0):(k>0.5?0:1);
+  const lit=k<0.01?"":k>0.99?`<circle cx="${c}" cy="${c}" r="${r}" fill="var(--gold)"/>`:`<path d="M${c} ${c-r}A${r} ${r} 0 0 ${s1} ${c} ${c+r}A${rx} ${r} 0 0 ${s2} ${c} ${c-r}Z" fill="var(--gold)"/>`;
+  return`<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" aria-hidden="true"><circle cx="${c}" cy="${c}" r="${r}" fill="#22363C"/>${lit}<circle cx="${c}" cy="${c}" r="${r}" fill="none" stroke="rgba(240,184,90,.35)" stroke-width="1"/></svg>`}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const chip=w=>`<span class="chip ${w.c||""}">${esc(w.txt)}</span>`;
+const isToday=d=>d.i===0;
+
+function renderDays(){$("days").innerHTML=S.days.map(d=>{const m=dayModel(d),g=grade(m.score);
+  return`<button class="day" data-i="${d.i}" aria-pressed="${d.i===S.sel}" aria-label="${fLong.format(new Date(d.start+12*HOUR))}, ${g.w}"><span class="dn">${fWd.format(new Date(d.start+12*HOUR))}</span><span class="dd">${d.d}</span>${d.i===0?'<span class="td" title="Today"></span>':""}<span class="bar"><i style="width:${Math.max(8,m.score)}%;background:${g.c}"></i></span></button>`}).join("")}
+
+function renderHero(){const d=S.days[S.sel],m=dayModel(d),g=grade(m.score),A=m.A,w=m.wins[0];
+  const dn=Math.ceil((nextPhase(d.start,0)-d.start)/DAY),fn=Math.ceil((nextPhase(d.start,0.5)-d.start)/DAY);
+  const nxt=A.name==="New Moon"||A.name==="Full Moon"?"Peak bite phase":(fn<dn?`Full moon in ${fn} day${fn>1?"s":""}`:`New moon in ${dn} day${dn>1?"s":""}`);
+  $("hero").innerHTML=`<div style="min-width:0">
+    <div class="when">${isToday(d)?"Today · ":""}${fLong.format(new Date(d.start+12*HOUR))}</div>
+    <div class="rating"><b style="color:${g.c}">${g.w}</b><span>${m.score}/100</span></div>
+    ${w?`<div class="best"><span class="eyebrow">Best bite</span><strong>${range(w.s,w.e)}</strong><div class="why">${w.why.filter(x=>x.c!=="neg").map(x=>esc(x.txt)).slice(0,3).join(" · ")||"Best mix of conditions today"}</div></div>`:""}
+  </div>
+  <div class="moon">${moonSVG(A.phase,A.fraction,62)}<div class="mn">${A.name}</div><div class="mi">${Math.round(A.fraction*100)}% lit<br>${nxt}</div></div>`}
+
+function renderChart(){const d=S.days[S.sel],m=dayModel(d),A=m.A,st=S.data[S.station];
+  const box=$("chart"),W=Math.max(300,Math.round(box.clientWidth||340)),H=214,pl=4,pr=4;
+  const X=t=>pl+(t-d.start)/(d.end-d.start)*(W-pl-pr);
+  const yT0=34,yT1=150,yS0=160,yS1=176;
+  let g="";
+  // dark shading
+  const dark=[];let s=null;for(let t=d.start;t<=d.end;t+=5*MIN){const dk=sunAlt(t)<-0.833*rad;if(dk&&s==null)s=t;if((!dk||t>=d.end)&&s!=null){dark.push([s,t]);s=null}}
+  for(const [a,b] of dark)g+=`<rect x="${X(a)}" y="28" width="${X(b)-X(a)}" height="${yS1-28}" fill="var(--night)"/>`;
+  // grid ticks
+  for(let t=d.start;t<d.end;t+=HOUR){const p=parts(t);if(p.hour%3===0){const x=X(t);g+=`<line x1="${x}" x2="${x}" y1="28" y2="${yS1}" stroke="var(--line)" stroke-width="1" stroke-dasharray="${p.hour%12===0?"":"2 4"}"/>`;
+    if(t>d.start||true){const lb=p.hour===0?"12a":p.hour===12?"12p":p.hour>12?(p.hour-12)+"p":p.hour+"a";g+=`<text x="${Math.min(W-14,Math.max(10,x))}" y="${H-6}" fill="var(--muted)" font-size="11" text-anchor="middle" font-family="var(--body)">${lb}</text>`}}}
+  // solunar band
+  const clip=(a,b)=>[Math.max(a,d.start),Math.min(b,d.end)];
+  for(const mj of A.majors){const [a,b]=clip(mj.s,mj.e);if(b<=a)continue;const w=X(b)-X(a);g+=`<rect x="${X(a)}" y="4" width="${w}" height="18" rx="4" fill="var(--gold)" opacity=".9"/>`;if(w>44)g+=`<text x="${X(a)+w/2}" y="17" text-anchor="middle" font-size="11" font-weight="700" fill="#2A1A00" font-family="var(--display)" letter-spacing="1">MAJOR</text>`}
+  for(const mn of A.minors){const [a,b]=clip(mn.s,mn.e);if(b<=a)continue;const w=X(b)-X(a);g+=`<rect x="${X(a)+.75}" y="4.75" width="${Math.max(0,w-1.5)}" height="16.5" rx="4" fill="none" stroke="var(--sand)" stroke-width="1.5" stroke-dasharray="3 2"/>`;if(w>34)g+=`<text x="${X(a)+w/2}" y="17" text-anchor="middle" font-size="10" font-weight="600" fill="var(--sand)" font-family="var(--display)" letter-spacing="1">MINOR</text>`}
+  // tide curve
+  if(st){const idx=[];for(let i=0;i<st.t.length;i++)if(st.t[i]>=d.start-HOUR&&st.t[i]<=d.end+HOUR)idx.push(i);
+    if(idx.length>2){let lo=Infinity,hi=-Infinity;idx.forEach(i=>{lo=Math.min(lo,st.v[i]);hi=Math.max(hi,st.v[i])});const pad=Math.max(0.15,(hi-lo)*0.18);lo-=pad;hi+=pad;
+      const Y=v=>yT1-(v-lo)/(hi-lo)*(yT1-yT0);
+      const xs=idx.map(i=>[Math.min(W-pr,Math.max(pl,X(st.t[i]))),Y(st.v[i])]);
+      const line=xs.map((p,j)=>(j?"L":"M")+p[0].toFixed(1)+" "+p[1].toFixed(1)).join("");
+      g+=`<path d="${line}L${xs[xs.length-1][0]} ${yT1}L${xs[0][0]} ${yT1}Z" fill="var(--sea-soft)"/><path d="${line}" fill="none" stroke="var(--sea)" stroke-width="2" stroke-linejoin="round"/>`;
+      for(const e of st.hilo.filter(e=>e.t>=d.start&&e.t<d.end)){const x=X(e.t),y=Y(e.v),up=e.type==="H";
+        const tx=Math.min(W-26,Math.max(26,x));
+        g+=`<circle cx="${x}" cy="${y}" r="3.5" fill="var(--bg)" stroke="var(--sea)" stroke-width="2"/><text x="${tx}" y="${up?y-9:y+17}" text-anchor="middle" font-size="11" fill="var(--fg)" font-family="var(--body)">${tShort(e.t)} ${e.v.toFixed(1).replace("-","−")}′</text>`}}}
+  else g+=`<text x="${W/2}" y="${(yT0+yT1)/2}" text-anchor="middle" font-size="12" fill="var(--muted)" font-family="var(--body)">Tide data loading…</text>`;
+  // score strip
+  const cw=X(d.start+10*MIN)-X(d.start);
+  for(const p of m.pts){const a=Math.max(0.05,Math.pow(p.v/100,1.6));g+=`<rect x="${X(p.t)}" y="${yS0}" width="${cw+0.4}" height="${yS1-yS0}" fill="var(--gold)" opacity="${a.toFixed(2)}"/>`}
+  m.wins.forEach((w,i)=>{const a=X(w.s),b=X(w.e);g+=`<path d="M${a} ${yS1+5}V${yS1+8}H${b}V${yS1+5}" fill="none" stroke="var(--fg)" stroke-width="1.5"/><text x="${(a+b)/2}" y="${yS1+19}" text-anchor="middle" font-size="10" font-weight="700" fill="var(--fg)" font-family="var(--display)">${i+1}</text>`});
+  // now
+  if(isToday(d)){const n=Date.now();if(n>=d.start&&n<d.end){const x=X(n);g+=`<line x1="${x}" x2="${x}" y1="26" y2="${yS1}" stroke="var(--coral)" stroke-width="1.5"/><circle cx="${x}" cy="26" r="3" fill="var(--coral)"/>`}}
+  box.innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Bite timeline with solunar periods, tide curve and bite index">${g}</svg>`;
+  $("lg-tide").textContent=st?`${st.name} tide (ft)`:"Tide (ft)"}
+
+function renderWins(){const d=S.days[S.sel],m=dayModel(d);
+  $("wins").innerHTML=m.wins.length?m.wins.map((w,i)=>{const g=grade(w.peak);return`<div class="win"><div class="rank">${i+1}</div><div style="min-width:0"><div class="t">${range(w.s,w.e)}</div><div class="chips">${w.why.slice(0,5).map(chip).join("")}</div></div><div class="score" style="color:${g.c}">${w.peak}<small>${g.w}</small></div></div>`}).join(""):`<div class="note">No standout windows. Conditions look rough all day.</div>`}
+
+function arrowSVG(dir){/* points the way the wind blows toward */return`<svg class="arrow" viewBox="0 0 24 24" style="transform:rotate(${(dir+180)%360}deg)" aria-hidden="true"><path d="M12 3l5 9h-3.5v9h-3v-9H7z" fill="currentColor"/></svg>`}
+function renderCond(){const d=S.days[S.sel],o=agg(d),wx=S.data.wx,today=isToday(d),cells=[];
+  $("cond-h").textContent=today?"Conditions now":"Conditions · "+fLong.format(new Date(d.start+12*HOUR));
+  const na=`<div class="v"><small>—</small></div><div class="s">Waiting for data</div>`;
+  // wind
+  if(o.wMax!=null){let v,dir,gust;if(today&&wx.current){v=wx.current.wind_speed_10m;dir=wx.current.wind_direction_10m;gust=wx.current.wind_gusts_10m}else{v=o.wMax;dir=o.dir;gust=o.gMax}
+    cells.push(`<div class="cell"><div class="eyebrow">Wind</div><div class="v">${arrowSVG(dir)}${Math.round(v)}<small>mph ${compass(dir)}</small></div><div class="s">${Math.round(v*0.869)} kt · gusts <b>${Math.round(gust)} mph</b><br>${today?"Today ":"Range "}${Math.round(o.wMin)}–${Math.round(o.wMax)} mph</div></div>`)}
+  else cells.push(`<div class="cell"><div class="eyebrow">Wind</div>${na}</div>`);
+  // pressure
+  if(wx&&o.pAm!=null){let p,dp,lab;if(today){const n=Date.now();p=wx.current&&wx.current.pressure_msl||hv(wx,"pressure_msl",n);const p3=hv(wx,"pressure_msl",n-3*HOUR);dp=p3!=null?p-p3:0;lab="last 3 h"}else{p=o.pPm;dp=o.pPm-o.pAm;lab="7a to 7p"}
+    const tr=dp<=-3?["Falling fast","var(--gold)","Front close. Fish early."]:dp<=-0.8?["Falling","var(--gold)","Fish often feed ahead of a front."]:dp>=1.5?["Rising","var(--coral)","Post-front. Bite can slow."]:dp>=0.5?["Rising slowly","var(--sand)","Settling weather."]:["Steady","var(--sea)","Stable pattern."];
+    cells.push(`<div class="cell"><div class="eyebrow">Barometer</div><div class="v">${hpa2in(p).toFixed(2)}<small>inHg</small></div><span class="tag" style="color:${tr[1]};background:var(--surface-2)">${tr[0]} ${dp>=0?"+":"−"}${Math.abs(hpa2in(dp)).toFixed(2)}</span><div class="s">${tr[2]} <span style="color:var(--faint)">(${lab})</span></div></div>`)}
+  else cells.push(`<div class="cell"><div class="eyebrow">Barometer</div>${na}</div>`);
+  // water temp
+  const wt=S.data.wtemp,wtFresh=wt&&Date.now()-wt.t<12*HOUR;
+  if((today&&wtFresh)||o.sst!=null){const main=today&&wtFresh?wt.v:o.sst;
+    cells.push(`<div class="cell"><div class="eyebrow">Water temp</div><div class="v">${main.toFixed(1)}<small>°F</small></div><div class="s">${today&&wtFresh?`${esc(wt.name)} at ${time(wt.t)}`:"Gulf forecast"}${o.sst!=null&&today&&wtFresh?`<br>Gulf <b>${o.sst.toFixed(0)}°F</b>`:""}</div></div>`)}
+  else cells.push(`<div class="cell"><div class="eyebrow">Water temp</div>${na}</div>`);
+  // waves
+  if(o.waveMax!=null){cells.push(`<div class="cell"><div class="eyebrow">Gulf waves</div><div class="v">${o.waveMin.toFixed(1)}–${o.waveMax.toFixed(1)}<small>ft</small></div><div class="s">${o.per?`Period <b>${Math.round(o.per)} s</b>`:""}${o.swell!=null?` · swell ${o.swell.toFixed(1)} ft`:""}<br>${o.waveMax>=5?"Rough offshore":o.waveMax>=3?"Choppy offshore":"Fishable offshore"}</div></div>`)}
+  else cells.push(`<div class="cell"><div class="eyebrow">Gulf waves</div>${na}</div>`);
+  // sky
+  if(o.tHi!=null){const now=today&&wx.current;cells.push(`<div class="cell"><div class="eyebrow">Weather</div><div class="v">${Math.round(now?now.temperature_2m:o.tHi)}<small>°F</small></div><div class="s">${esc(now?(WMO[now.weather_code]||o.sky):o.sky)}<br>Hi ${Math.round(o.tHi)}° · Lo ${Math.round(o.tLo)}°</div></div>`);
+    cells.push(`<div class="cell"><div class="eyebrow">Rain chance</div><div class="v">${Math.round(o.rain)}<small>%</small></div><div class="s">${o.rain>=60?"Likely. Bring a jacket.":o.rain>=30?"Scattered showers possible":"Mostly dry"}</div></div>`)}
+  else{cells.push(`<div class="cell"><div class="eyebrow">Weather</div>${na}</div>`)}
+  $("cond").innerHTML=cells.join("")}
+
+function renderTides(){const d=S.days[S.sel];
+  $("tides").innerHTML=["gulf","bay"].map(k=>{const st=S.data[k];const lab=k==="gulf"?"Gulf · Jetties":"Bay · Laguna Madre";
+    if(!st)return`<div class="tlist"><h3>${lab}</h3><div class="note">${S.meta[k]&&S.meta[k].err?"Couldn’t load. Tap Refresh.":"Loading…"}</div></div>`;
+    const ev=st.hilo.filter(e=>e.t>=d.start&&e.t<d.end);const hs=ev.filter(e=>e.type==="H").map(e=>e.v),ls=ev.filter(e=>e.type==="L").map(e=>e.v);
+    const rg=hs.length&&ls.length?(Math.max(...hs)-Math.min(...ls)).toFixed(1):null;
+    return`<div class="tlist"><h3>${lab}</h3><div class="sub">${esc(st.name)}${rg?` · range ${rg} ft`:""}</div>${ev.map(e=>`<div class="trow"><span class="ty ${e.type==="H"?"":"l"}">${e.type==="H"?"HI":"LO"}</span><span>${time(e.t)}</span><span class="ft">${e.v.toFixed(2)} ft</span></div>`).join("")||`<div class="note">No turns today</div>`}</div>`}).join("")}
+
+function renderSol(){const d=S.days[S.sel],A=dayModel(d).A,rows=[];
+  A.majorsDay.forEach(m=>rows.push([m.s,`<div class="k maj">Major</div><div class="d">${m.kind==="over"?"Moon overhead":"Moon underfoot"} ${time(m.t)}</div>`,range(m.s,m.e)]));
+  A.minorsDay.forEach(m=>rows.push([m.s,`<div class="k min">Minor</div><div class="d">${m.kind==="rise"?"Moonrise":"Moonset"} ${time(m.t)}</div>`,range(m.s,m.e)]));
+  if(A.sunrise)rows.push([A.sunrise,`<div class="k">Sunrise</div>`,time(A.sunrise)]);
+  if(A.sunset)rows.push([A.sunset,`<div class="k">Sunset</div>`,time(A.sunset)]);
+  rows.sort((a,b)=>a[0]-b[0]);
+  const nf=nextPhase(d.start,0.5),nn=nextPhase(d.start,0);
+  rows.push([0,`<div class="k">Moon</div><div class="d">${A.name}, ${Math.round(A.fraction*100)}% lit</div>`,`<span class="d">Full ${fMd.format(new Date(nf))} · New ${fMd.format(new Date(nn))}</span>`]);
+  $("sol").innerHTML=rows.map(r=>`<tr><td>${r[1]}</td><td>${r[2]}</td></tr>`).join("")}
+
+function renderOutlook(){$("outlook").innerHTML=S.days.map(d=>{const m=dayModel(d),g=grade(m.score),o=agg(d),w=m.wins[0];
+  const bits=[];if(w)bits.push(`Best <b>${range(w.s,w.e)}</b>`);
+  const x=[];if(o.wMax!=null)x.push(`${compass(o.dir)} ${Math.round(o.wMin)}–${Math.round(o.wMax)} mph`);if(o.waveMax!=null)x.push(`${o.waveMax.toFixed(1)} ft seas`);if(o.rain!=null&&o.rain>=30)x.push(`${Math.round(o.rain)}% rain`);
+  return`<button class="orow" data-i="${d.i}"><div class="od">${d.i===0?"Today":fWd.format(new Date(d.start+12*HOUR))}<small>${fMd.format(new Date(d.start+12*HOUR))}</small></div><div>${moonSVG(m.A.phase,m.A.fraction,26)}</div><div class="om">${bits.join("")}${x.length?"<br>"+x.join(" · "):""}</div><div class="pill" style="color:${g.c};background:${g.bg}">${g.w} ${m.score}</div></button>`}).join("")}
+
+function ago(ts){const m=Math.round((Date.now()-ts)/MIN);if(m<1)return"just now";if(m<60)return m+" min ago";const h=Math.round(m/60);if(h<36)return h+" h ago";return fMd.format(new Date(ts))}
+function renderStatus(){const ks=Object.keys(SOURCES),live=ks.filter(k=>S.meta[k]&&S.meta[k].ok),failed=ks.filter(k=>S.meta[k]&&!S.meta[k].ok&&S.meta[k].err),have=ks.filter(k=>S.data[k]);
+  let dot="",txt="";
+  if(S.loading){dot="warn";txt=have.length?"Updating… showing saved data":"Loading tides and weather…"}
+  else if(live.length===ks.length){txt="Live · updated "+time(Math.min(...ks.map(k=>S.meta[k].ts)))}
+  else if(have.length){dot="warn";const old=Math.min(...have.map(k=>S.meta[k].ts||Date.now()));txt=(failed.length?"No connection for "+failed.map(k=>LABEL[k]).join(", ")+". ":"")+"Saved data from "+ago(old)}
+  else{dot="bad";txt="Couldn’t reach NOAA or Open-Meteo. Solunar times still work. Tap Refresh when you have signal."}
+  $("status").innerHTML=`<span class="dot ${dot}"></span><span>${esc(txt)}</span>`}
+
+function renderAll(){try{S.days=S.days[0].start<=Date.now()&&Date.now()<S.days[0].end?S.days:buildDays()}catch(e){}
+  renderDays();renderHero();renderChart();renderWins();renderCond();renderTides();renderSol();renderOutlook();renderStatus()}
+
+/* ---------- events ---------- */
+function select(i){S.sel=i;renderAll()}
+$("days").addEventListener("click",e=>{const b=e.target.closest(".day");if(b)select(+b.dataset.i)});
+$("outlook").addEventListener("click",e=>{const b=e.target.closest(".orow");if(b){select(+b.dataset.i);window.scrollTo({top:0,behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"})}});
+function setStation(k){S.station=k;store.set("station",k);$("st-gulf").setAttribute("aria-pressed",k==="gulf");$("st-bay").setAttribute("aria-pressed",k==="bay");renderChart()}
+$("st-gulf").onclick=()=>setStation("gulf");$("st-bay").onclick=()=>setStation("bay");
+$("refresh").onclick=()=>refresh();
+let rz;addEventListener("resize",()=>{clearTimeout(rz);rz=setTimeout(renderChart,120)});
+document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible"){const old=Object.values(S.meta).some(m=>!m.ts||Date.now()-m.ts>45*MIN);if(old)refresh();else renderAll()}});
+setInterval(()=>{if(document.visibilityState==="visible"&&S.sel===0)renderChart()},5*MIN);
+
+setStation(S.station);renderAll();refresh();
+if("serviceWorker" in navigator&&location.protocol==="https:")navigator.serviceWorker.register("sw.js").catch(()=>{});
+</script>
+</body>
+</html>
