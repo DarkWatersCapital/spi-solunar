@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180">
+  <rect width="180" height="180" fill="#0A171B"/>
+  <mask id="cut"><rect width="180" height="180" fill="#fff"/><circle cx="114.4" cy="63" r="45" fill="#000"/></mask>
+  <circle cx="90" cy="75" r="41" fill="#F0B85A" mask="url(#cut)"/>
+  <g fill="none" stroke="#6CD4C4" stroke-width="5" stroke-linecap="round">
+    <path d="M-45.5 129.75Q-23 115.25-0.5 129.75T44.5 129.75T89.5 129.75T134.5 129.75T179.5 129.75T224.5 129.75"/>
+    <path d="M-60.5 149.5Q-38 137.5-15.5 149.5T29.5 149.5T74.5 149.5T119.5 149.5T164.5 149.5T209.5 149.5"/>
+  </g>
+</svg>
