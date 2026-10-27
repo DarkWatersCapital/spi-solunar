@@ -239,23 +239,38 @@ const fT=new Intl.DateTimeFormat("en-US",{timeZone:TZ,hour:"numeric",minute:"2-d
 const fWd=new Intl.DateTimeFormat("en-US",{timeZone:TZ,weekday:"short"});
 const fLong=new Intl.DateTimeFormat("en-US",{timeZone:TZ,weekday:"long",month:"long",day:"numeric"});
 const fMd=new Intl.DateTimeFormat("en-US",{timeZone:TZ,month:"short",day:"numeric"});
-const time=t=>fT.format(new Date(t));
+const time=t=>fT.format(new Date(Math.round(t/MIN)*MIN));/* nearest minute, like published tables */
 const tShort=t=>time(t).replace(" AM","a").replace(" PM","p");
 const range=(a,b)=>{const A=time(a),B=time(b);const sa=A.slice(-2),sb=B.slice(-2);return (sa===sb?A.slice(0,-3):A)+"–"+B};
 
-/* ---------- astronomy (after SunCalc, V. Agafonkin, BSD) ---------- */
-const rad=Math.PI/180, J1970=2440588, J2000=2451545, OB=rad*23.4397;
+/* ---------- astronomy ----------
+   Sun: Meeus, Astronomical Algorithms ch. 25. Moon: Meeus ch. 47, terms down to 0.002°. Illumination after SunCalc (V. Agafonkin, BSD).
+   Positions use the mean equinox of date and turn with mean sidereal time (Meeus 12.4). */
+const rad=Math.PI/180, J1970=2440588, J2000=2451545;
 const toDays=t=>t/DAY-0.5+J1970-J2000;
-const raOf=(l,b)=>Math.atan2(Math.sin(l)*Math.cos(OB)-Math.tan(b)*Math.sin(OB),Math.cos(l));
-const decOf=(l,b)=>Math.asin(Math.sin(b)*Math.cos(OB)+Math.cos(b)*Math.sin(OB)*Math.sin(l));
+const obl=T=>rad*(23.439291-0.0130042*T);/* T: Julian centuries since J2000 */
+const raOf=(l,b,e)=>Math.atan2(Math.sin(l)*Math.cos(e)-Math.tan(b)*Math.sin(e),Math.cos(l));
+const decOf=(l,b,e)=>Math.asin(Math.sin(b)*Math.cos(e)+Math.cos(b)*Math.sin(e)*Math.sin(l));
 const altOf=(H,phi,dec)=>Math.asin(Math.sin(phi)*Math.sin(dec)+Math.cos(phi)*Math.cos(dec)*Math.cos(H));
-const sid=(d,lw)=>rad*(280.16+360.9856235*d)-lw;
-function sunCoords(d){const M=rad*(357.5291+0.98560028*d);const C=rad*(1.9148*Math.sin(M)+0.02*Math.sin(2*M)+0.0003*Math.sin(3*M));const L=M+C+rad*102.9372+Math.PI;return{dec:decOf(L,0),ra:raOf(L,0)}}
-function moonCoords(d){const L=rad*(218.316+13.176396*d),M=rad*(134.963+13.064993*d),F=rad*(93.272+13.229350*d);const l=L+rad*6.289*Math.sin(M),b=rad*5.128*Math.sin(F),dist=385001-20905*Math.cos(M);return{ra:raOf(l,b),dec:decOf(l,b),dist}}
+const sid=(d,lw)=>rad*(280.46061837+360.98564736629*d)-lw;
+function sunCoords(d){const T=d/36525,M=rad*(357.52911+35999.05029*T);
+  const C=(1.914602-0.004817*T)*Math.sin(M)+(0.019993-0.000101*T)*Math.sin(2*M)+0.000289*Math.sin(3*M);
+  const L=rad*((280.46646+36000.76983*T+C-0.00569)%360),ob=obl(T);return{dec:decOf(L,0,ob),ra:raOf(L,0,ob)}}
+/* moon terms: multiples of D, M, M', F, then longitude (1e-6°) and distance (m) amplitudes; MB rows end in latitude (1e-6°) */
+const MLR=[[0,0,1,0,6288774,-20905355],[2,0,-1,0,1274027,-3699111],[2,0,0,0,658314,-2955968],[0,0,2,0,213618,-569925],[0,1,0,0,-185116,48888],[0,0,0,2,-114332,-3149],[2,0,-2,0,58793,246158],[2,-1,-1,0,57066,-152138],[2,0,1,0,53322,-170733],[2,-1,0,0,45758,-204586],[0,1,-1,0,-40923,-129620],[1,0,0,0,-34720,108743],[0,1,1,0,-30383,104755],[2,0,0,-2,15327,10321],[0,0,1,2,-12528,0],[0,0,1,-2,10980,79661],[4,0,-1,0,10675,-34782],[0,0,3,0,10034,-23210],[4,0,-2,0,8548,-21636],[2,1,-1,0,-7888,24208],[2,1,0,0,-6766,30824],[1,0,-1,0,-5163,-8379],[1,1,0,0,4987,-16675],[2,-1,1,0,4036,-12831],[2,0,2,0,3994,-10445],[4,0,0,0,3861,-11650],[2,0,-3,0,3665,14403],[0,1,-2,0,-2689,-7003],[2,0,-1,2,-2602,0],[2,-1,-2,0,2390,10056],[1,0,1,0,-2348,6322],[2,-2,0,0,2236,-9884],[0,1,2,0,-2120,5751],[0,2,0,0,-2069,0],[2,-2,-1,0,2048,-4950]];
+const MB=[[0,0,0,1,5128122],[0,0,1,1,280602],[0,0,1,-1,277693],[2,0,0,-1,173237],[2,0,-1,1,55413],[2,0,-1,-1,46271],[2,0,0,1,32573],[0,0,2,1,17198],[2,0,1,-1,9266],[0,0,2,-1,8822],[2,-1,0,-1,8216],[2,0,-2,-1,4324],[2,0,1,1,4200],[2,1,0,-1,-3359],[2,-1,-1,1,2463],[2,-1,0,1,2211],[2,-1,-1,-1,2065],[0,1,-1,-1,-1870],[4,0,-1,-1,1828],[0,1,0,1,-1794],[0,0,0,3,-1749],[0,1,-1,1,-1565],[1,0,0,1,-1491],[0,1,1,1,-1475],[0,1,1,-1,-1410],[0,1,0,-1,-1344],[1,0,0,-1,-1335]];
+function moonCoords(d){const T=d/36525,a=x=>rad*(x%360),E=1-0.002516*T,e=m=>m?E**Math.abs(m):1;
+  const Lp=a(218.3164477+481267.88123421*T),D=a(297.8501921+445267.1114034*T),M=a(357.5291092+35999.0502909*T),
+    Mp=a(134.9633964+477198.8675055*T),F=a(93.2720950+483202.0175233*T),A1=a(119.75+131.849*T);
+  let l=3958*Math.sin(A1)+1962*Math.sin(Lp-F)+318*Math.sin(a(53.09+479264.29*T)),r=0,
+    b=-2235*Math.sin(Lp)+382*Math.sin(a(313.45+481266.484*T))+175*Math.sin(A1-F)+175*Math.sin(A1+F)+127*Math.sin(Lp-Mp)-115*Math.sin(Lp+Mp);
+  for(const[k,m,n,f,cl,cr]of MLR){const x=k*D+m*M+n*Mp+f*F;l+=cl*e(m)*Math.sin(x);r+=cr*e(m)*Math.cos(x)}
+  for(const[k,m,n,f,cb]of MB)b+=cb*e(m)*Math.sin(k*D+m*M+n*Mp+f*F);
+  const lam=Lp+rad*l/1e6,bet=rad*b/1e6,ob=obl(T);return{ra:raOf(lam,bet,ob),dec:decOf(lam,bet,ob),dist:385000.56+r/1000}}
 const PHI=rad*CFG.lat, LW=rad*-CFG.lng;
 function sunAlt(t){const d=toDays(t),c=sunCoords(d);return altOf(sid(d,LW)-c.ra,PHI,c.dec)}
-function refr(h){if(h<0)h=0;return 0.0002967/Math.tan(h+0.00312536/(h+0.08901179))}
-function moonAlt(t){const d=toDays(t),c=moonCoords(d);const h=altOf(sid(d,LW)-c.ra,PHI,c.dec);return h+refr(h)}
+/* moon's height above its rise/set line: top edge on the horizon after refraction and parallax (Meeus ch. 15) */
+function moonUp(t){const d=toDays(t),c=moonCoords(d);return altOf(sid(d,LW)-c.ra,PHI,c.dec)-(0.7275*Math.asin(6378.14/c.dist)-rad*0.5667)}
 function moonHA(t){const d=toDays(t),c=moonCoords(d);return sid(d,LW)-c.ra}
 const wrap=a=>{a=(a+Math.PI)%(2*Math.PI);if(a<0)a+=2*Math.PI;return a-Math.PI};
 function moonIllum(t){const d=toDays(t),s=sunCoords(d),m=moonCoords(d),sd=149598000;
@@ -278,7 +293,7 @@ function astro(day){
   if(astroCache.has(day.start))return astroCache.get(day.start);
   const a=day.start-14*HOUR,b=day.end+14*HOUR;
   const sun=crossings(a,b,t=>sunAlt(t)+0.833*rad);
-  const moon=crossings(a,b,t=>moonAlt(t)-0.133*rad);
+  const moon=crossings(a,b,moonUp);
   const upper=crossings(a,b,t=>wrap(moonHA(t)));
   const lower=crossings(a,b,t=>wrap(moonHA(t)-Math.PI));
   const inDay=x=>x.t>=day.start&&x.t<day.end;
